@@ -62,14 +62,17 @@ class Dataset_Flores(Dataset):
         else:
             print('Dataset Folder exist')
 
+        #reemplazar por un diccionario
         if type == 'test':
             root_path = os.path.join(root_path,'test')
-        if type == 'train':
-            root_path = os.path.join(root_path,'train')
-        if type == 'validation':
-            root_path = os.path.join(root_path,'validation')
         else:
-            return
+            if type == 'train':
+                root_path = os.path.join(root_path,'train')
+            else:
+                if type == 'validation':
+                    root_path = os.path.join(root_path,'validation')
+                else:
+                    return
 
         df_Rosas = cdf(root_path, 'Rosas',1,on_ram)
         df_Calas_rosa = cdf(root_path, 'Calas_rosa',2,on_ram)
