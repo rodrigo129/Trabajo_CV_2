@@ -4,7 +4,8 @@ import os
 from torch.utils.data import Dataset
 import cv2
 import torch
-#import gdown
+import zipfile
+import gdown
 
 
 
@@ -26,31 +27,50 @@ def cdf(root_path, folder, label, on_ram):
 
 
 class Dataset_Flores(Dataset):
-    def __init__(self, root_path = '',transform = None,test=False, on_ram = True ,shuffle = True ):
+    def __init__(self, root_path = '', transform = None, type=False, on_ram = True , shuffle = True ):
 
         """if not os.path.exists(root_path):
             print('np')
-            url = 'https://drive.google.com/drive/u/1/folders/1Yj6LuftUGwk3rIEuYoA2UNrAyPtJ0v3b'
-            gdown.download_folder(url, quiet=True, use_cookies=False)"""
+
+            """
 
         self.on_ram = on_ram
         self.transform = transform
-        
-        
-        if test:
-            root_path = os.path.join(root_path,'test')
 
 
+        if not os.path.exists(root_path):
+            print('Dataset Folder does not exist')
 
+            if not (os.path.exists('Dataset_Flores.zip') or os.path.exists(os.path.join('Dataset_Flores','Dataset_Flores.zip'))):
+                #descargar
+                print('Starting Download')
+                url = 'https://drive.google.com/drive/u/1/folders/1Yj6LuftUGwk3rIEuYoA2UNrAyPtJ0v3b'
+                gdown.download_folder(url, quiet=False, use_cookies=False)
+                print('Download Finished ')
+
+            if os.path.exists(os.path.join('Dataset_Flores', 'Dataset_Flores.zip')):
+                os.rename(os.path.join('Dataset_Flores', 'Dataset_Flores.zip'), 'Dataset_Flores.zip')
+                os.remove('Dataset_Flores')
+
+            if os.path.exists('Dataset_Flores.zip'):
+                #descomprimir
+                compresed_dataset = zipfile.ZipFile('Dataset_Flores.zip')
+                print('Decompressing')
+                compresed_dataset.extractall()
+                os.remove('Dataset_Flores.zip')
+                print('Done')
         else:
+            print('Dataset Folder exist')
+
+        if type == 'test':
+            root_path = os.path.join(root_path,'test')
+        if type == 'train':
             root_path = os.path.join(root_path,'train')
+        if type == 'validation':
+            root_path = os.path.join(root_path,'validation')
+        else:
+            return
 
-
-
-
-        
-        
-        
         df_Rosas = cdf(root_path, 'Rosas',1,on_ram)
         df_Calas_rosa = cdf(root_path, 'Calas_rosa',2,on_ram)
         df_Cardenales_rojas = cdf(root_path, 'Cardenales_rojas',3,on_ram)

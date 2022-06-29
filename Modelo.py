@@ -1,4 +1,4 @@
-from pytorch_lightning import LightningModule, Trainer
+from pytorch_lightning import LightningModule
 import torchvision
 import torch
 import torchmetrics

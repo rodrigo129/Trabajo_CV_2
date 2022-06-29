@@ -11,5 +11,7 @@ transform = transforms.Compose([
     transforms.Normalize(mean=[0.485, 0.456, 0.406], std=[0.229, 0.224, 0.225])
 ])
 
-train_ds = Dataset_Flores(root_path=os.path.join(os.getcwd(), "acumulados"), on_ram=False, test=False,
+train_ds = Dataset_Flores(root_path=os.path.join(os.getcwd(), "acumulado"), on_ram=False, test=False,
                           transform=transform)
+
+print('Prueba de Carga de dataset finalizada')
