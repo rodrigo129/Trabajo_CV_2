@@ -21,8 +21,8 @@ if __name__ == '__main__':
         transforms.Normalize(mean=[0.485, 0.456, 0.406], std=[0.229, 0.224, 0.225])
     ])
 
-    train_ds = Dataset_Flores(root_path=os.path.join(os.getcwd(),"acumulados"),on_ram = False,test=False, transform=transform)
-    val_ds = Dataset_Flores(root_path=os.path.join(os.getcwd(),"acumulados"),on_ram = False,test=True, transform=transform)
+    train_ds = Dataset_Flores(root_path=os.path.join(os.getcwd(),"Dataset"),on_ram = False,test=False, transform=transform)
+    val_ds = Dataset_Flores(root_path=os.path.join(os.getcwd(),"Dataset"),on_ram = False,test=True, transform=transform)
     train_loader = DataLoader(train_ds, batch_size=32, num_workers=4)
     val_loader = DataLoader(val_ds, batch_size=32, num_workers=4)
     classes = ('Calas_rosa', 'Cardenales_rojas', 'Orejas_de_oso', 'Rosas',
