@@ -1,10 +1,12 @@
 import pandas as pd
-import numpy as np
 from pathlib import Path
 import os
 from torch.utils.data import Dataset
 import cv2
 import torch
+#import gdown
+
+
 
 def cdf(root_path, folder, label, on_ram):
     folder_files = Path (os.path.join(root_path,folder))
@@ -25,14 +27,27 @@ def cdf(root_path, folder, label, on_ram):
 
 class Dataset_Flores(Dataset):
     def __init__(self, root_path = '',transform = None,test=False, on_ram = True ,shuffle = True ):
+
+        """if not os.path.exists(root_path):
+            print('np')
+            url = 'https://drive.google.com/drive/u/1/folders/1Yj6LuftUGwk3rIEuYoA2UNrAyPtJ0v3b'
+            gdown.download_folder(url, quiet=True, use_cookies=False)"""
+
         self.on_ram = on_ram
         self.transform = transform
         
         
         if test:
             root_path = os.path.join(root_path,'test')
+
+
+
         else:
             root_path = os.path.join(root_path,'train')
+
+
+
+
         
         
         
@@ -47,11 +62,7 @@ class Dataset_Flores(Dataset):
         
         if shuffle:
             self.Dataframe = self.Dataframe.sample(frac=1).reset_index(drop=True)
-        
-        
-        
-        
-        
+
         pass
     
     def __len__(self):
