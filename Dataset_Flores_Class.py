@@ -27,7 +27,7 @@ def cdf(root_path, folder, label, on_ram):
 
 
 class Dataset_Flores(Dataset):
-    def __init__(self, root_path = '', transform = None, type=False, on_ram = True , shuffle = True ):
+    def __init__(self, root_path = '', transform = None, type=False, on_ram = True , shuffle = True ,no_label = False):
 
         """if not os.path.exists(root_path):
             print('np')
@@ -35,6 +35,7 @@ class Dataset_Flores(Dataset):
             """
 
         self.on_ram = on_ram
+        self.no_label = no_label
         self.transform = transform
 
 
@@ -110,5 +111,8 @@ class Dataset_Flores(Dataset):
         if self.transform:
             img = self.transform(img)
         
-        
+        if self.no_label:
+            return (img, )
+
+
         return (img,label)
