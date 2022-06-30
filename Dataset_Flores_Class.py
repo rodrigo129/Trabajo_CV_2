@@ -75,11 +75,11 @@ class Dataset_Flores(Dataset):
                 else:
                     return
 
-        df_Rosas = cdf(root_path, 'Rosas',1,on_ram)
-        df_Calas_rosa = cdf(root_path, 'Calas_rosa',2,on_ram)
-        df_Cardenales_rojas = cdf(root_path, 'Cardenales_rojas',3,on_ram)
-        df_Orejas_de_oso = cdf(root_path, 'Orejas_de_oso',4,on_ram)
-        df_Otros = cdf(root_path, 'Otros',5,on_ram)
+        df_Rosas = cdf(root_path, 'Rosas',0,on_ram)
+        df_Calas_rosa = cdf(root_path, 'Calas_rosa',1,on_ram)
+        df_Cardenales_rojas = cdf(root_path, 'Cardenales_rojas',2,on_ram)
+        df_Orejas_de_oso = cdf(root_path, 'Orejas_de_oso',3,on_ram)
+        df_Otros = cdf(root_path, 'Otros',4,on_ram)
         
         self.Dataframe = pd.concat([df_Rosas, df_Calas_rosa,df_Cardenales_rojas,df_Orejas_de_oso,df_Otros]
                                        , ignore_index=True)
@@ -112,7 +112,7 @@ class Dataset_Flores(Dataset):
             img = self.transform(img)
         
         if self.no_label:
-            return (img, )
+            return (img )
 
 
         return (img,label)

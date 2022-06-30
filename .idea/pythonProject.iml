@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<module type="PYTHON_MODULE" version="4">
+  <component name="NewModuleRootManager">
+    <content url="file://$MODULE_DIR$">
+      <excludeFolder url="file://$MODULE_DIR$/Venv_App" />
+      <excludeFolder url="file://$MODULE_DIR$/Venv_App_2" />
+      <excludeFolder url="file://$MODULE_DIR$/acumulado" />
+    </content>
+    <orderEntry type="jdk" jdkName="Python 3.10 (pythonProject) (2)" jdkType="Python SDK" />
+    <orderEntry type="sourceFolder" forTests="false" />
+  </component>
+</module>

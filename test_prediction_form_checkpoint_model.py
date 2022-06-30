@@ -16,12 +16,35 @@ if __name__ == '__main__':
     ])
 
     DS_Validation = Dataset_Flores(root_path=os.path.join(os.getcwd(), "acumulado"), on_ram=False, type='validation',
-                                   transform=transform, shuffle=False)
-    Validation_loader = DataLoader(DS_Validation, batch_size=64, num_workers=4)
+                                   transform=transform, shuffle=False, no_label=True)
+    Validation_loader = DataLoader(DS_Validation, batch_size=1, num_workers=1)
 
-    model = modelo.load_from_checkpoint(os.path.join('', 'log', 'checkpoints', 'epoch=0-step=10.ckpt'))
+    model = modelo.load_from_checkpoint(os.path.join('', 'log', 'checkpoints', 'epoch=8-step=90.ckpt'))
+    model.freeze()
 
-    trainer = Trainer()
+    print(DS_Validation[0].size())
+
+    trainer = Trainer(accelerator='gpu')
+
+
+    #blank_model = modelo()
+
+
+    #model
+
+    #model(DS_Validation[0])
+
+    #print(model(DS_Validation[0]))
+
+
+    #print(model.forward(DS_Validation[0]))
+
 
     predictions = trainer.predict(model, dataloaders=Validation_loader)
+    #print('predicciones')
     print(predictions)
+
+    """for _ in predictions:
+        print(_)"""
+
+
