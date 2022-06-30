@@ -17,7 +17,7 @@ if __name__ == '__main__':
 
     DS_Validation = Dataset_Flores(root_path=os.path.join(os.getcwd(), "acumulado"), on_ram=False, type='validation',
                                    transform=transform, shuffle=False, no_label=True)
-    Validation_loader = DataLoader(DS_Validation, batch_size=1, num_workers=1)
+    Validation_loader = DataLoader(DS_Validation, batch_size=64, num_workers=4)
 
     model = modelo.load_from_checkpoint(os.path.join('', 'log', 'checkpoints', 'epoch=8-step=90.ckpt'))
     model.freeze()
@@ -42,9 +42,9 @@ if __name__ == '__main__':
 
     predictions = trainer.predict(model, dataloaders=Validation_loader)
     #print('predicciones')
-    print(predictions)
+    #print(predictions)
 
-    """for _ in predictions:
-        print(_)"""
+    for _ in predictions:
+        print(_)
 
 
