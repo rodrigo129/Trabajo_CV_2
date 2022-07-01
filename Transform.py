@@ -7,7 +7,6 @@ from torchvision.transforms import InterpolationMode
 def GetTransform():
 
     transform = transforms.Compose([
-        torchvision.transforms.ToPILImage(mode=None),
 
         torchvision.transforms.RandomRotation(60, interpolation=InterpolationMode.NEAREST, expand=False,
                                               center=None, fill=0, resample=None),
