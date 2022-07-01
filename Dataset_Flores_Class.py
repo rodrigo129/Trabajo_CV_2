@@ -6,7 +6,7 @@ import cv2
 import torch
 import zipfile
 import gdown
-
+from PIL import Image
 
 
 def cdf(root_path, folder, label, on_ram):
@@ -16,7 +16,8 @@ def cdf(root_path, folder, label, on_ram):
     for file_path in sorted(folder_files.glob('*.jpg')):
         
         if on_ram:
-            file_list.append(cv2.imread(os.fspath(file_path)))
+            file_list.append(Image.open(os.fspath(file_path), "r"))
+            #file_list.append(cv2.imread(os.fspath(file_path)))
         else:
             file_list.append(os.fspath(file_path))
         file_label.append(label)
@@ -105,7 +106,10 @@ class Dataset_Flores(Dataset):
         if self.on_ram:
             img = row.values[0][0]
         else:
-            img = cv2.imread(row.values[0][0])
+
+            img = Image.open(os.fspath(row.values[0][0]), "r")
+
+            #img = cv2.imread(row.values[0][0])
         #img = cv2.imread(img_path)
         
         if self.transform:
