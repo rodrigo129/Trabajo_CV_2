@@ -95,7 +95,7 @@ class Dataset_Flores(Dataset):
     
     def __getitem__(self, idx):
         
-        row = self.Dataframe.iloc[[0]]
+        row = self.Dataframe.iloc[[idx]]
         
         numero = row.values[0][1]
         #print(numero)
