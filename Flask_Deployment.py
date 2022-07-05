@@ -87,4 +87,4 @@ def predecir():
 
 if __name__ == '__main__':
     # Iniciamos la aplicación
-    app.run(debug=True,host="192.168.10.3", port=8080)
+    app.run(debug=True, port=8080)
