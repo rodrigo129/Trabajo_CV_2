@@ -2,7 +2,7 @@ import pandas as pd
 from pathlib import Path
 import os
 from torch.utils.data import Dataset
-import cv2
+#import cv2
 import torch
 import zipfile
 import gdown
