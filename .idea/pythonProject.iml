@@ -6,7 +6,7 @@
       <excludeFolder url="file://$MODULE_DIR$/Venv_App_2" />
       <excludeFolder url="file://$MODULE_DIR$/acumulado" />
     </content>
-    <orderEntry type="jdk" jdkName="Python 3.10 (pythonProject) (2)" jdkType="Python SDK" />
+    <orderEntry type="jdk" jdkName="Poetry (Trabajo_CV_2) (2)" jdkType="Python SDK" />
     <orderEntry type="sourceFolder" forTests="false" />
   </component>
 </module>
