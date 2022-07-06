@@ -13,6 +13,7 @@ torchvision = "^0.13.0"
 pandas = "^1.4.3"
 gdown = "^4.5.1"
 pytorch-lightning = "^1.6.4"
+typer = "^0.4.2"
 
 [tool.poetry.dev-dependencies]
 
