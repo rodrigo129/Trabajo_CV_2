@@ -4,13 +4,14 @@ import torch
 import torchmetrics
 from torch.nn import functional as F
 
+
 class modelo(LightningModule):
-    def __init__(self):
+    def __init__(self, show_model=False):
         super().__init__()
-        self.model = torchvision.models.shufflenet_v2_x0_5(pretrained=False, progress=True)
-        print(self.model)
-        self.model.fc = torch.nn.Linear(1024, 5)
-        print(self.model)
+        self.model = torchvision.models.shufflenet_v2_x0_5(pretrained=True, progress=True)
+        self.model.fc = torch.nn.Sequential(torch.nn.Linear(1024, 5), torch.nn.Softmax(dim=1))
+        if show_model:
+            print(self.model)
         self.val_acc = torchmetrics.Accuracy(num_classes=5)
 
     def forward(self, x):
