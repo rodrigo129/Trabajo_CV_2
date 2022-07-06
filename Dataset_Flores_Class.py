@@ -8,7 +8,15 @@ import gdown
 from PIL import Image
 
 
-def cdf(root_path, folder, label, on_ram):
+def fill_dataframe(root_path, folder, label, on_ram):
+    """
+
+    :param root_path: path of the dataset
+    :param folder: folder of class to load
+    :param label: label corresponding to the folder
+    :param on_ram: flag that indicate if the image must be keep in ram
+    :return: dataframe filled
+    """
     folder_files = Path(os.path.join(root_path, folder))
     file_list = []
     file_label = []
@@ -26,11 +34,27 @@ def cdf(root_path, folder, label, on_ram):
     return pd.DataFrame(data)
 
 
-class Dataset_Flores(Dataset):
-    def __init__(self, root_path='', transform=None, type=False, on_ram=True, shuffle=True, no_label=False):
+def get_labels():
+    """
 
-        """if not os.path.exists(root_path):
-            print('np')
+    :return: dictionary of the class labels
+    """
+    return {0: 'rosas', 1: 'calas_rosa', 2: 'cardenales_rojas', 3: 'orejas_de_oso',
+            4: 'otro'}
+
+
+class FlowersDataset(Dataset):
+
+    def __init__(self, root_path='', transform=None, dataset_type=False, on_ram=True, shuffle=True, no_label=False):
+
+        """
+            function that load the images of the dataset
+            :param root_path: path of the folder containing the dataset
+            :param transform: transform function for the images in the dataset
+            :param dataset_type: dataset type to load ("train", "test" or "validation)
+            :param on_ram: flag for keeping the images loaded in ram
+            :param shuffle: flag for shuffle the images after load
+            :param no_label: flag for hide the label of the image
 
             """
 
@@ -51,14 +75,15 @@ class Dataset_Flores(Dataset):
 
             if os.path.exists(os.path.join('Dataset_Flores', 'Dataset_Flores.zip')):
                 os.rename(os.path.join('Dataset_Flores', 'Dataset_Flores.zip'), 'Dataset_Flores.zip')
+                os.remove(os.path.join('Dataset_Flores',os.listdir('Dataset_Flores')[0]))
                 os.rmdir('Dataset_Flores')
 
             if os.path.exists('Dataset_Flores.zip'):
                 # descomprimir
-                compresed_dataset = zipfile.ZipFile('Dataset_Flores.zip')
+                compressed_dataset = zipfile.ZipFile('Dataset_Flores.zip')
                 print('Decompressing')
-                compresed_dataset.extractall()
-                compresed_dataset.close()
+                compressed_dataset.extractall()
+                compressed_dataset.close()
 
                 os.remove('Dataset_Flores.zip')
                 print('Done')
@@ -66,20 +91,20 @@ class Dataset_Flores(Dataset):
             print('Dataset Folder exist')
 
         # reemplazar por un diccionario
-        if type == 'test':
+        if dataset_type == 'test':
             root_path = os.path.join(root_path, 'test')
-        elif type == 'train':
+        elif dataset_type == 'train':
             root_path = os.path.join(root_path, 'train')
-        elif type == 'validation':
+        elif dataset_type == 'validation':
             root_path = os.path.join(root_path, 'validation')
         else:
             return
 
-        df_Rosas = cdf(root_path, 'Rosas', 0, on_ram)
-        df_Calas_rosa = cdf(root_path, 'Calas_rosa', 1, on_ram)
-        df_Cardenales_rojas = cdf(root_path, 'Cardenales_rojas', 2, on_ram)
-        df_Orejas_de_oso = cdf(root_path, 'Orejas_de_oso', 3, on_ram)
-        df_Otros = cdf(root_path, 'Otros', 4, on_ram)
+        df_Rosas = fill_dataframe(root_path, 'Rosas', 0, on_ram)
+        df_Calas_rosa = fill_dataframe(root_path, 'Calas_rosa', 1, on_ram)
+        df_Cardenales_rojas = fill_dataframe(root_path, 'Cardenales_rojas', 2, on_ram)
+        df_Orejas_de_oso = fill_dataframe(root_path, 'Orejas_de_oso', 3, on_ram)
+        df_Otros = fill_dataframe(root_path, 'Otros', 4, on_ram)
 
         self.Dataframe = pd.concat([df_Rosas, df_Calas_rosa, df_Cardenales_rojas, df_Orejas_de_oso, df_Otros]
                                    , ignore_index=True)
@@ -88,26 +113,32 @@ class Dataset_Flores(Dataset):
             self.Dataframe = self.Dataframe.sample(frac=1).reset_index(drop=True)
 
     def __len__(self):
+        """
+        function that give the length of the dataset
+
+        :return: integer with the length of the dataset
+        """
         return len(self.Dataframe.index)
 
     def __getitem__(self, idx):
+        """
+        function that return an image form the dataset
 
+        :param idx: index of the image to obtain
+        :return: image in the index
+        """
         row = self.Dataframe.iloc[[idx]]
-
-        numero = row.values[0][1]
-
-        label = torch.tensor(int(numero))
+        label = torch.tensor(int(row.values[0][1]))
 
         if self.on_ram:
             img = row.values[0][0]
         else:
-
             img = Image.open(os.fspath(row.values[0][0]), "r")
 
         if self.transform:
             img = self.transform(img)
 
         if self.no_label:
-            return (img)
+            return img
 
-        return (img, label)
+        return img, label
